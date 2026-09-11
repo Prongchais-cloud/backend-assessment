@@ -1,10 +1,10 @@
-export default function NewProduct({ dataForm, setDataForm, handleCreate }) {
+export default function UpdateForm({ _id, dataForm, setDataForm, handleUpdate }) {
     const onSubmit = (e) => {
-        handleCreate(e);
+        handleUpdate(_id);
     };
     return (
         <section className="flex flex-col gap-10">
-            <h3 className="text-2xl">Add new product</h3>
+            <h3 className="text-2xl">Update Product</h3>
             <form className="flex gap-20 justify-center" onSubmit={onSubmit}>
                 <input
                     type="text"
