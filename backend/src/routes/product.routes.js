@@ -21,7 +21,9 @@ router.get("/:id", async (req, res, next) => {
         const data = await Product.findById(productId);
 
         if (!data) {
-            return res.status(404).json({ error: "Not found!!" });
+            return res
+                .status(404)
+                .json({ success: false, error: "Not found!!" });
         }
 
         res.status(200).json(data);
@@ -32,19 +34,26 @@ router.get("/:id", async (req, res, next) => {
 
 // Create product
 router.post("/", async (req, res, next) => {
-    const { name, price, quantity } = req.body;
+    try {
+        const { name, price, quantity } = req.body;
 
-    if (!name || !price ) {
-        return res
-            .status(400)
-            .json({ error: "Missing name, price or quantity!!" });
+        if (!name || !price) {
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    error: "Missing name, price or quantity!!",
+                });
+        }
+
+        const newProduct = await Product.create({ name, price, quantity });
+
+        const newP = newProduct.toObject();
+
+        res.status(201).json(newP);
+    } catch (error) {
+        next(error);
     }
-
-    const newProduct = await Product.create({ name, price, quantity });
-
-    const newP = newProduct.toObject();
-
-    res.status(201).json(newP);
 });
 
 // Update product
@@ -55,7 +64,10 @@ router.put("/:id", async (req, res, next) => {
         if (!name || !price || !quantity) {
             return res
                 .status(400)
-                .json({ error: "Missing name, price or quantity!!!" });
+                .json({
+                    success: false,
+                    error: "Missing name, price or quantity!!!",
+                });
         }
 
         const updateProduct = await Product.findOneAndUpdate(
@@ -65,10 +77,12 @@ router.put("/:id", async (req, res, next) => {
         );
 
         if (!updateProduct) {
-            return res.status(404).json({ error: "Not found!!" });
+            return res
+                .status(404)
+                .json({ success: false, message: "Product not found!!" });
         }
 
-        res.status(200).json(updateProduct);
+        res.status(200).json({ success: true, updateProduct: updateProduct });
     } catch (error) {
         next(error);
     }
@@ -77,13 +91,18 @@ router.put("/:id", async (req, res, next) => {
 // Delete product
 router.delete("/:id", async (req, res, next) => {
     try {
-        const deleteProduct = await Product.findOneAndDelete(req.params.id);
+        const deleteProduct = await Product.findOneAndDelete({ _id: req.params.id});
 
         if (!deleteProduct) {
-            return res.status(404).json({ error: "Not found!!" });
+            return res
+                .status(404)
+                .json({ success: false, message: "Product not found!!" });
         }
 
-        res.status(201).json("Delete successfull!!");
+        res.status(200).json({
+            success: true,
+            message: "Delete successfull!!",
+        });
     } catch (error) {
         next(error);
     }
