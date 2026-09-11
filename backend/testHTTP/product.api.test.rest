@@ -27,3 +27,6 @@ Content-Type: application/json
 
 ### Delete product
 DELETE {{baseUrl}}/6aa3895401091aec79d1b71e
+
+### Get sort product
+GET {{baseUrl}}?name=s

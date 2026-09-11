@@ -6,7 +6,7 @@ import { getProduct } from "../data/fetchData";
 
 export default function Update(){
     const { _id } = useParams();
-    const { dataForm, setDataForm, handleUpdate, oneProduct, handleOneProduct } = getProduct();
+    const { dataForm, setDataForm, handleUpdate, oneProduct, oneLoading, handleOneProduct } = getProduct();
 
     useEffect(() => {
         if (_id) handleOneProduct(_id);
@@ -21,6 +21,14 @@ export default function Update(){
             });
         }
     }, [oneProduct]);
+
+    if (oneLoading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <p className="text-2xl">Loading product...</p>
+            </div>
+        );
+    }
 
     return (
         <section className="flex flex-col justify-center text-center p-20 gap-30">

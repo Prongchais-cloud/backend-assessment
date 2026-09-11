@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { Product } from "../models/product.model.js";
+import { sortProducts } from "../controller/productController.js";
 
 export const router = Router();
+
+router.get("/", sortProducts);
 
 // Read all product
 router.get("/", async (req, res, next) => {
@@ -82,7 +85,7 @@ router.put("/:id", async (req, res, next) => {
                 .json({ success: false, message: "Product not found!!" });
         }
 
-        res.status(200).json({ success: true, updateProduct: updateProduct });
+        res.status(201).json({ success: true, updateProduct: updateProduct });
     } catch (error) {
         next(error);
     }

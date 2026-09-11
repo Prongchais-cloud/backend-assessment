@@ -2,8 +2,11 @@ import express from "express";
 import { connectDB } from "./config/mongodb.js";
 import { router as apiRoutes } from "./routes/index.js";
 import cors from "cors";
+import logger from "./middleware/logger.js";
 
 const app = express();
+
+app.use(logger);
 
 app.use(express.json());
 

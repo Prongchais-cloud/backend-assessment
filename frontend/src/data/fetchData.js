@@ -5,6 +5,8 @@ const api = import.meta.env.VITE_API_URL;
 export function getProduct() {
     const [product, setProduct] = useState([]);
     const [oneProduct, setOneProduct] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [oneLoading, setOneLoading] = useState(false);
     const [dataForm, setDataForm] = useState({
         name: "",
         price: "",
@@ -12,6 +14,7 @@ export function getProduct() {
     });
 
     async function fetchProduct() {
+        setLoading(true);
         try {
             const res = await fetch(api);
             if (!res.ok) {
@@ -21,6 +24,8 @@ export function getProduct() {
             setProduct(productData);
         } catch (err) {
             console.error("Can't fetch product!!", err.message);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -89,6 +94,7 @@ export function getProduct() {
     };
 
     const handleOneProduct = async (_id) => {
+        setOneLoading(true);
         try {
             const res = await fetch(`${api}/${_id}`);
 
@@ -101,17 +107,21 @@ export function getProduct() {
             setOneProduct(singleProduct);
         } catch (error) {
             console.error("Can't get product!!", error);
+        } finally {
+            setOneLoading(false);
         }
     };
 
     return {
         product,
+        loading,
+        oneProduct,
+        oneLoading,
         dataForm,
         setDataForm,
         handleCreate,
         handleDelete,
         handleUpdate,
-        oneProduct,
         handleOneProduct,
     };
 }
