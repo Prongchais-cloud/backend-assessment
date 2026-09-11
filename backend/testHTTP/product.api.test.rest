@@ -1,0 +1,29 @@
+@baseUrl = http://localhost:3001/api/product
+
+### Read all product
+GET {{baseUrl}}/
+
+### Read one product
+GET {{baseUrl}}/6aa382aea97b7ee127f04e30
+
+### Create new product
+POST {{baseUrl}}/
+Content-Type: application/json
+
+{
+    "name": "Storm ION PRO",
+    "price": "10000"
+}
+
+### Update product
+PUT {{baseUrl}}/6aa382aea97b7ee127f04e30
+Content-Type: application/json
+
+{
+    "name": "Storm ION MAX",
+    "price": "10000",
+    "quantity": "10"
+}
+
+### Delete product
+DELETE {{baseUrl}}/6aa3895401091aec79d1b71e
